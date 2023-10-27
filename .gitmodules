@@ -1,0 +1,6 @@
+[submodule "vicious"]
+	path = vicious
+	url = https://github.com/vicious-widgets/vicious.git
+[submodule "net_widgets"]
+	path = net_widgets
+	url = https://github.com/pltanton/net_widgets.git
