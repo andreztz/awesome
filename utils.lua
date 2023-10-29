@@ -19,7 +19,10 @@ local awful = require("awful")
 -- awful.key({ modkey, "Shift" }, "#" .. numpad_map[8], function (c) snap_edge(c, 'top') end),
 -- awful.key({ modkey, "Shift" }, "#" .. numpad_map[9], function (c) snap_edge(c, 'topright') end),
 
--- `where` can be `left` `right` `top` `bottom` `center` `topleft` `topright` `bottomleft` `bottomright` nil
+--- Positions a window at the edges or corners of the screen.
+-- @tparam client c The client to be repositioned.
+-- @string where The position where the window will be anchored ("right", "left", "bottom", "top", "topright", "topleft", "bottomright", "bottomleft", "center").
+-- @tparam[opt] table geom The custom geometry for the window (optional).
 local function snap_edge(c, where, geom)
 	local sg = screen[c.screen].geometry --screen geometry
 	local sw = screen[c.screen].workarea --screen workarea
@@ -41,12 +44,18 @@ local function snap_edge(c, where, geom)
 	end
 	if where == "right" then
 		cg.width = sw.width / 2 - 2 * border
-		cg.height = sw.height
+		-- WARNING: Adjustment of -5 in sw.height to prevent client overflow.
+		-- If the taskbar is at the "top", the client spills below the screen.
+		-- If the taskbar is at the "bottom", the client overlaps with the taskbar.
+		cg.height = sw.height - 5
 		cg.x = workarea.x_max - cg.width
 		cg.y = workarea.y_min
 	elseif where == "left" then
 		cg.width = sw.width / 2 - 2 * border
-		cg.height = sw.height
+		-- WARNING: Adjustment of -5 in sw.height to prevent client overflow.
+		-- If the taskbar is at the "top", the client spills below the screen.
+		-- If the taskbar is at the "bottom", the client overlaps with the taskbar.
+		cg.height = sw.height - 5
 		cg.x = workarea.x_min
 		cg.y = workarea.y_min
 	elseif where == "bottom" then
