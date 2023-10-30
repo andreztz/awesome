@@ -1,35 +1,35 @@
--- wombat (matching the vim colorscheme), awesome3 theme, by zhuravlik
-
---{{{ Main
---
 local beautiful = require("beautiful")
 local xresources = beautiful.xresources
 local dpi = xresources.apply_dpi
 local awful = require("awful")
 awful.util = require("awful.util")
 
-theme = {}
+local theme = {}
 
-home = os.getenv("HOME")
-config = awful.util.getdir("config")
-shared = "/usr/share/awesome"
+local home = os.getenv("HOME")
+local config = awful.util.getdir("config")
+local shared = "/usr/share/awesome"
+
 if not awful.util.file_readable(shared .. "/icons/awesome16.png") then
 	shared = "/usr/share/local/awesome"
 end
-sharedicons = shared .. "/icons"
-sharedthemes = shared .. "/themes"
-themes = config .. "/themes"
-themename = "/ztz"
+
+local themename = "/ztz"
+local sharedicons = shared .. "/icons"
+local sharedthemes = shared .. "/themes"
+local themes = config .. "/themes"
+
 if not awful.util.file_readable(themes .. themename .. "/theme.lua") then
 	themes = sharedthemes
 end
-themedir = themes .. themename
 
-wallpaper1 = themedir .. "/background.jpg"
-wallpaper2 = themedir .. "/background.png"
-wallpaper3 = sharedthemes .. "/zenburn/zenburn-background.png"
-wallpaper4 = sharedthemes .. "/default/background.png"
-wpscript = home .. "/.wallpaper"
+local themedir = themes .. themename
+
+local wallpaper1 = themedir .. "/background.jpg"
+local wallpaper2 = themedir .. "/background.png"
+local wallpaper3 = sharedthemes .. "/zenburn/zenburn-background.png"
+local wallpaper4 = sharedthemes .. "/default/background.png"
+local wpscript = home .. "/.wallpaper"
 
 if awful.util.file_readable(wallpaper1) then
 	theme.wallpaper = wallpaper1
@@ -42,29 +42,36 @@ elseif awful.util.file_readable(wallpaper3) then
 else
 	theme.wallpaper = wallpaper4
 end
---}}}
 
--- {{{ Styles
+-- Styles
 
--- {{{ Colors
+-- Colors
 theme.fg_normal = "#cccccc"
 theme.fg_focus = "#8d8a4b"
 theme.fg_urgent = "#929392"
 theme.bg_normal = "#1c1d1c88"
 theme.bg_focus = "#0c0d0c88"
 theme.bg_urgent = "#34353488"
--- }}}
 
--- {{{ Borders
---
-theme.useless_gap = dpi(1)
-theme.border_width = dpi(2)
+--  Borders
+theme.useless_gap = dpi(2)
+theme.border_width = dpi(3)
+-- https://awesomewm.org/doc/api/documentation/06-appearance.md.html
+theme.border_focus = "#00CC00" -- Define a cor da borda da janela quando está em foco
+theme.border_normal = "#000000"
+
+theme.tasklist_bg_focus = "#00FF00" -- Define a cor de fundo da barra de tarefas para a janela em foco
+theme.tasklist_bg_minimize = "#FF00FF" -- Define a cor de fundo da barra de tarefas para janelas minimizadas
+
+theme.font = "Ubuntu Mono 12"
+theme.systray_icon_spacing = 8
+
 -- theme.border_width                              = "2"
 --theme.border_normal = "#34353488"
 --theme.border_normal = "#2d4113"
 --theme.border_normal = "#586c2d"
-theme.border_normal = "#727352"
-theme.border_focus = "#586c2d"
+-- theme.border_normal = "#727352"
+-- theme.border_focus = "#586c2d"
 --theme.border_focus  = "#a2bf36"
 --theme.border_focus  = "#6886c1"
 theme.border_marked = "#CC9393"
@@ -107,22 +114,19 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[border_color|border_width]
 theme.menu_height = "15"
 theme.menu_width = "130"
--- }}}
 
--- {{{ Icons
--- {{{ Taglist
+-- Icons
+-- Taglist
 theme.taglist_squares_sel = sharedthemes .. "/zenburn/taglist/squarefz.png"
 theme.taglist_squares_unsel = sharedthemes .. "/zenburn/taglist/squarez.png"
 --theme.taglist_squares_resize = "false"
--- }}}
 
--- {{{ Misc
+-- Misc
 theme.awesome_icon = themedir .. "/awesome-icon.png"
 theme.menu_submenu_icon = sharedthemes .. "/default/submenu.png"
 theme.tasklist_floating_icon = sharedthemes .. "/default/tasklist/floatingw.png"
--- }}}
 
--- {{{ Layout
+-- Layout
 theme.layout_tile = themedir .. "/layouts/tile.png"
 theme.layout_tileleft = themedir .. "/layouts/tileleft.png"
 theme.layout_tilebottom = themedir .. "/layouts/tilebottom.png"
@@ -135,9 +139,8 @@ theme.layout_max = themedir .. "/layouts/max.png"
 theme.layout_fullscreen = themedir .. "/layouts/fullscreen.png"
 theme.layout_magnifier = themedir .. "/layouts/magnifier.png"
 theme.layout_floating = themedir .. "/layouts/floating.png"
--- }}}
 
--- {{{ Titlebar
+-- Titlebar
 theme.titlebar_close_button_focus = sharedthemes .. "/zenburn/titlebar/close_focus.png"
 theme.titlebar_close_button_normal = sharedthemes .. "/zenburn/titlebar/close_normal.png"
 
@@ -160,16 +163,4 @@ theme.titlebar_maximized_button_focus_active = sharedthemes .. "/zenburn/titleba
 theme.titlebar_maximized_button_normal_active = sharedthemes .. "/zenburn/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_inactive = sharedthemes .. "/zenburn/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = sharedthemes .. "/zenburn/titlebar/maximized_normal_inactive.png"
--- }}}
--- }}}
--- https://awesomewm.org/doc/api/documentation/06-appearance.md.html
-theme.border_focus = "#FF0000" -- Define a cor da borda da janela quando está em foco
-theme.border_normal = "#000000"
-
-theme.tasklist_bg_focus = "#00FF00" -- Define a cor de fundo da barra de tarefas para a janela em foco
-theme.tasklist_bg_minimize = "#FF00FF" -- Define a cor de fundo da barra de tarefas para janelas minimizadas
-
-theme.font = "Ubuntu Mono 12"
-theme.systray_icon_spacing = 8
-
 return theme
