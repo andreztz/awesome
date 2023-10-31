@@ -2,7 +2,8 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 
 -- Rules
-local function setup()
+local function setup(config)
+	local titlebars = config.titlebars or false
 	-- Rules to apply to new clients (through the "manage" signal).
 	awful.rules.rules = {
 		-- All clients will match this rule.
@@ -16,9 +17,16 @@ local function setup()
 				keys = clientkeys,
 				buttons = clientbuttons,
 				screen = awful.screen.preferred,
+				titlebars_enabled = titlebars,
 				placement = awful.placement.no_overlap + awful.placement.no_offscreen,
 			},
 		},
+		-- Add titlebars to dialogs
+		{
+			rule_any = { type = { "dialog" } },
+			properties = { titlebars_enabled = true },
+		},
+
 		-- Floating clients.
 		{
 			rule_any = {
@@ -52,11 +60,6 @@ local function setup()
 				},
 			},
 			properties = { floating = true },
-		},
-		-- Add titlebars to normal clients and dialogs
-		{
-			rule_any = { type = { "normal", "dialog" } },
-			properties = { titlebars_enabled = true },
 		},
 		{
 			rule = { class = "terminology" },

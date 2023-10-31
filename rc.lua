@@ -92,7 +92,7 @@ local bindings = require("bindings")
 bindings.setup()
 
 local rules = require("rules")
-rules.setup()
+rules.setup({ titlebars = false })
 
 local signals = require("signals")
 signals.setup()
