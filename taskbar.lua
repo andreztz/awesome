@@ -8,7 +8,7 @@ local dpi = xresources.apply_dpi
 
 local net_widgets = require("net_widgets")
 
-local function setup()
+local function setup(config)
 	-- Keyboard map indicator and switcher
 	local mykeyboardlayout = awful.widget.keyboardlayout()
 
@@ -155,13 +155,13 @@ local function setup()
 			filter = awful.widget.tasklist.filter.currenttags,
 			buttons = tasklist_buttons,
 		})
+
 		-- Create the wibox
 		s.mywibox = awful.wibar({
-			position = "top",
+			position = config.position,
 			screen = s,
 			opacity = 0.8,
-			type = "desktop",
-			height = dpi(21),
+			height = dpi(24),
 		})
 
 		-- Add widgets to the wibox
@@ -179,8 +179,6 @@ local function setup()
 				{
 					-- Right widgets
 					layout = wibox.layout.fixed.horizontal,
-					net_wired,
-					net_internet,
 					systray_wrapper,
 					mytextclock,
 					s.mylayoutbox,

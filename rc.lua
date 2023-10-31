@@ -86,7 +86,7 @@ local menu = require("menu")
 menu.setup()
 
 local taskbar = require("taskbar")
-taskbar.setup()
+taskbar.setup({ position = "bottom" })
 
 local bindings = require("bindings")
 bindings.setup()
