@@ -22,6 +22,7 @@ require("awful.hotkeys_popup.keys")
 local vicious = require("vicious")
 local executer = require("modules/executer")
 
+local set_wallpaper = require("utils").set_wallpaper
 -- local _log = require("gears.debug")
 -- Exemplo de uso do sistema de log
 -- _log.print_error("Exibe uma mensagem de erro!")
@@ -85,12 +86,6 @@ layouts.setup()
 local menu = require("menu")
 menu.setup()
 
-local taskbar = require("taskbar")
-
-awful.screen.connect_for_each_screen(function(s)
-	taskbar.setup({ position = "bottom", screen = s })
-end)
-
 local bindings = require("bindings")
 bindings.setup()
 
@@ -102,3 +97,13 @@ signals.setup()
 
 local autostart = require("autostart")
 autostart.setup()
+
+local taskbar = require("taskbar")
+
+awful.screen.connect_for_each_screen(function(s)
+	-- Wallpaper
+	set_wallpaper(s)
+	taskbar.setup({ position = "bottom", screen = s })
+	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
+	screen.connect_signal("property::geometry", set_wallpaper)
+end)

@@ -82,29 +82,11 @@ local function setup(config)
 		end)
 	)
 
-	local function set_wallpaper(s)
-		-- Wallpaper
-		if beautiful.wallpaper then
-			local wallpaper = beautiful.wallpaper
-			-- If wallpaper is a function, call it with the screen
-			if type(wallpaper) == "function" then
-				wallpaper = wallpaper(s)
-			end
-			gears.wallpaper.maximized(wallpaper, s, true)
-		end
-	end
-
-	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-	-- screen.connect_signal("property::geometry", set_wallpaper)
-
 	if screen.index == 1 then
 		screen.primary = true
 	else
 		screen.primary = false
 	end
-
-	-- Wallpaper
-	set_wallpaper(screen)
 
 	-- Each screen has its own tag table.
 	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, screen, awful.layout.layouts[1])
