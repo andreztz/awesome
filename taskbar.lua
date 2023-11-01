@@ -9,19 +9,9 @@ local dpi = xresources.apply_dpi
 local net_widgets = require("net_widgets")
 
 local function setup(config)
+	local screen = config.screen
 	-- Keyboard map indicator and switcher
-	local mykeyboardlayout = awful.widget.keyboardlayout()
-
-	local net_wired = net_widgets.indicator({
-		interfaces = { "enp5s0" },
-		timeout = 5,
-	})
-
-	local net_internet = net_widgets.internet({
-		indent = 0,
-		timeout = 5,
-		showconnected = true,
-	})
+	local keyboardlayout = awful.widget.keyboardlayout()
 
 	-- Wibar
 	-- Create a textclock widget
@@ -41,13 +31,9 @@ local function setup(config)
 			right = 10,
 			widget = wibox.container.margin,
 		},
-		--bg = "#ff0000aa", -- uncomment to debug
-		-- shape = gears.shape.rounded_rect,
 		shape_clip = true,
 		widget = wibox.container.background,
 	})
-	-- local systray_wrapper = wibox.widget.systray()
-	-- systray_wrapper:set_reverse(true)
 
 	memwidget = wibox.widget.textbox()
 	vicious.cache(vicious.widgets.mem)
@@ -109,101 +95,100 @@ local function setup(config)
 	end
 
 	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-	screen.connect_signal("property::geometry", set_wallpaper)
+	-- screen.connect_signal("property::geometry", set_wallpaper)
 
-	awful.screen.connect_for_each_screen(function(s)
-		if s.index == 1 then
-			s.primary = true
-		else
-			s.primary = false
-		end
+	if screen.index == 1 then
+		screen.primary = true
+	else
+		screen.primary = false
+	end
 
-		-- Wallpaper
-		set_wallpaper(s)
+	-- Wallpaper
+	set_wallpaper(screen)
 
-		-- Each screen has its own tag table.
-		awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+	-- Each screen has its own tag table.
+	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, screen, awful.layout.layouts[1])
 
-		-- Create a promptbox for each screen
-		s.mypromptbox = awful.widget.prompt()
-		-- Create an imagebox widget which will contain an icon indicating which layout we're using.
-		-- We need one layoutbox per screen.
-		s.mylayoutbox = awful.widget.layoutbox(s)
-		s.mylayoutbox:buttons(gears.table.join(
-			awful.button({}, 1, function()
-				awful.layout.inc(1)
-			end),
-			awful.button({}, 3, function()
-				awful.layout.inc(-1)
-			end),
-			awful.button({}, 4, function()
-				awful.layout.inc(1)
-			end),
-			awful.button({}, 5, function()
-				awful.layout.inc(-1)
-			end)
-		))
-		-- Create a taglist widget
-		s.mytaglist = awful.widget.taglist({
-			screen = s,
-			filter = awful.widget.taglist.filter.all,
-			buttons = taglist_buttons,
+	-- Create a promptbox for each screen
+	screen.mypromptbox = awful.widget.prompt()
+	-- Create an imagebox widget which will contain an icon indicating which layout we're using.
+	-- We need one layoutbox per screen.
+	screen.mylayoutbox = awful.widget.layoutbox(s)
+	screen.mylayoutbox:buttons(gears.table.join(
+		awful.button({}, 1, function()
+			awful.layout.inc(1)
+		end),
+		awful.button({}, 3, function()
+			awful.layout.inc(-1)
+		end),
+		awful.button({}, 4, function()
+			awful.layout.inc(1)
+		end),
+		awful.button({}, 5, function()
+			awful.layout.inc(-1)
+		end)
+	))
+	-- Create a taglist widget
+	screen.mytaglist = awful.widget.taglist({
+		screen = screen,
+		filter = awful.widget.taglist.filter.all,
+		buttons = taglist_buttons,
+	})
+	-- Create a tasklist widget
+	screen.mytasklist = awful.widget.tasklist({
+		screen = screen,
+		filter = awful.widget.tasklist.filter.currenttags,
+		buttons = tasklist_buttons,
+	})
+
+	-- Create the wibox
+	screen.mywibox = awful.wibar({
+		position = config.position,
+		screen = screen,
+		opacity = 0.8,
+		height = dpi(24),
+	})
+
+	-- Add widgets to the wibox
+	if screen.primary then
+		screen.mywibox:setup({
+			layout = wibox.layout.align.horizontal,
+			{
+				-- Left widgets
+				layout = wibox.layout.fixed.horizontal,
+				menu_launcher,
+				screen.mytaglist,
+				screen.mypromptbox,
+			},
+			screen.mytasklist, -- Middle widget
+			{
+				-- Right widgets
+				layout = wibox.layout.fixed.horizontal,
+				-- keyboardlayout,
+				systray_wrapper,
+				mytextclock,
+				screen.mylayoutbox,
+			},
 		})
-		-- Create a tasklist widget
-		s.mytasklist = awful.widget.tasklist({
-			screen = s,
-			filter = awful.widget.tasklist.filter.currenttags,
-			buttons = tasklist_buttons,
+	else
+		screen.mywibox:setup({
+			layout = wibox.layout.align.horizontal,
+			{
+				-- Left widgets
+				layout = wibox.layout.fixed.horizontal,
+				menu_launcher,
+				screen.mytaglist,
+				screen.mypromptbox,
+			},
+			screen.mytasklist, -- Middle widget
+			{
+				-- Right widgets
+				layout = wibox.layout.fixed.horizontal,
+				mytextclock,
+				screen.mylayoutbox,
+			},
 		})
-
-		-- Create the wibox
-		s.mywibox = awful.wibar({
-			position = config.position,
-			screen = s,
-			opacity = 0.8,
-			height = dpi(24),
-		})
-
-		-- Add widgets to the wibox
-		if s.primary then
-			s.mywibox:setup({
-				layout = wibox.layout.align.horizontal,
-				{
-					-- Left widgets
-					layout = wibox.layout.fixed.horizontal,
-					menu_launcher,
-					s.mytaglist,
-					s.mypromptbox,
-				},
-				s.mytasklist, -- Middle widget
-				{
-					-- Right widgets
-					layout = wibox.layout.fixed.horizontal,
-					systray_wrapper,
-					mytextclock,
-					s.mylayoutbox,
-				},
-			})
-		else
-			s.mywibox:setup({
-				layout = wibox.layout.align.horizontal,
-				{
-					-- Left widgets
-					layout = wibox.layout.fixed.horizontal,
-					menu_launcher,
-					s.mytaglist,
-					s.mypromptbox,
-				},
-				s.mytasklist, -- Middle widget
-				{
-					-- Right widgets
-					layout = wibox.layout.fixed.horizontal,
-					mytextclock,
-					s.mylayoutbox,
-				},
-			})
-		end
-	end)
+	end
 end
 
 return {

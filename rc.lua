@@ -86,7 +86,10 @@ local menu = require("menu")
 menu.setup()
 
 local taskbar = require("taskbar")
-taskbar.setup({ position = "bottom" })
+
+awful.screen.connect_for_each_screen(function(s)
+	taskbar.setup({ position = "bottom", screen = s })
+end)
 
 local bindings = require("bindings")
 bindings.setup()
