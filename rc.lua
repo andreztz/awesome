@@ -99,11 +99,13 @@ local autostart = require("autostart")
 autostart.setup()
 
 local taskbar = require("taskbar")
+-- WARNING: To ensure run taskbar.setup starts correctly,
+-- run it inside the awful.screen.connect_for_each_screen function
 
 awful.screen.connect_for_each_screen(function(s)
 	-- Wallpaper
 	set_wallpaper(s)
-	taskbar.setup({ position = "top", screen = s })
+	taskbar.setup({ position = "bottom", screen = s })
 	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 	screen.connect_signal("property::geometry", set_wallpaper)
 end)

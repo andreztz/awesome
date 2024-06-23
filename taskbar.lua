@@ -10,6 +10,8 @@ local net_widgets = require("net_widgets")
 
 local function setup(config)
 	local screen = config.screen
+	local task_bar_position = config.position
+
 	-- Keyboard map indicator and switcher
 	local keyboardlayout = awful.widget.keyboardlayout()
 
@@ -129,6 +131,7 @@ local function setup(config)
 		screen = screen,
 		opacity = 0.8,
 		height = dpi(24),
+		position = task_bar_position,
 	})
 
 	-- Add widgets to the wibox
