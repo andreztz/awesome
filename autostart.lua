@@ -3,11 +3,14 @@ local executer = require("modules/executer")
 local function setup()
 	-- Autostart
 	executer.execute_commands({
-		"xcompmgr",
+		"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",
+		"redshift-gtk",
+		"powerkit",
 		"volctl",
 		"nm-applet",
-		"xfce4-clipman",
-		"redshift",
+		"xcompmgr",
+		"/usr/bin/opensnitch-ui",
+		"/usr/bin/copyq",
 	})
 end
 
