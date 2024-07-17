@@ -105,7 +105,7 @@ local taskbar = require("taskbar")
 awful.screen.connect_for_each_screen(function(s)
 	-- Wallpaper
 	set_wallpaper(s)
-	taskbar.setup({ position = "bottom", screen = s })
+	taskbar.setup({ position = "top", screen = s })
 	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 	screen.connect_signal("property::geometry", set_wallpaper)
 end)
