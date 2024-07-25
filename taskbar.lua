@@ -10,7 +10,6 @@ local net_widgets = require("net_widgets")
 
 local function setup(config)
 	local screen = config.screen
-	local task_bar_position = config.position
 
 	-- Keyboard map indicator and switcher
 	local keyboardlayout = awful.widget.keyboardlayout()
@@ -21,6 +20,7 @@ local function setup(config)
 
 	-- Create System Tray widget
 	-- see: https://github.com/awesomeWM/awesome/issues/971
+	--
 	local systray_widget = wibox.widget.systray()
 	systray_widget:set_reverse(true)
 
@@ -84,12 +84,6 @@ local function setup(config)
 		end)
 	)
 
-	if screen.index == 1 then
-		screen.primary = true
-	else
-		screen.primary = false
-	end
-
 	-- Each screen has its own tag table.
 	awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, screen, awful.layout.layouts[1])
 
@@ -131,49 +125,27 @@ local function setup(config)
 		screen = screen,
 		opacity = 0.8,
 		height = dpi(24),
-		position = task_bar_position,
 	})
 
-	-- Add widgets to the wibox
-	if screen.primary then
-		screen.mywibox:setup({
-			layout = wibox.layout.align.horizontal,
-			{
-				-- Left widgets
-				layout = wibox.layout.fixed.horizontal,
-				menu_launcher,
-				screen.mytaglist,
-				screen.mypromptbox,
-			},
-			screen.mytasklist, -- Middle widget
-			{
-				-- Right widgets
-				layout = wibox.layout.fixed.horizontal,
-				-- keyboardlayout,
-				systray_wrapper,
-				mytextclock,
-				screen.mylayoutbox,
-			},
-		})
-	else
-		screen.mywibox:setup({
-			layout = wibox.layout.align.horizontal,
-			{
-				-- Left widgets
-				layout = wibox.layout.fixed.horizontal,
-				menu_launcher,
-				screen.mytaglist,
-				screen.mypromptbox,
-			},
-			screen.mytasklist, -- Middle widget
-			{
-				-- Right widgets
-				layout = wibox.layout.fixed.horizontal,
-				mytextclock,
-				screen.mylayoutbox,
-			},
-		})
-	end
+	screen.mywibox:setup({
+		layout = wibox.layout.align.horizontal,
+		{
+			-- Left widgets
+			layout = wibox.layout.fixed.horizontal,
+			menu_launcher,
+			screen.mytaglist,
+			screen.mypromptbox,
+		},
+		screen.mytasklist, -- Middle widget
+		{
+			-- Right widgets
+			layout = wibox.layout.fixed.horizontal,
+			-- keyboardlayout,
+			systray_wrapper,
+			mytextclock,
+			screen.mylayoutbox,
+		},
+	})
 end
 
 return {
