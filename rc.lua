@@ -78,6 +78,8 @@ awful.screen.set_auto_dpi_enabled(true)
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
+WALLPAPER = HOME .. "/Pictures/wallpapers/wallpaper.jpeg"
+
 beautiful.notification_icon_size = 16
 
 local layouts = require("layouts")
@@ -103,9 +105,10 @@ local taskbar = require("taskbar")
 -- run it inside the awful.screen.connect_for_each_screen function
 
 awful.screen.connect_for_each_screen(function(s)
-	-- Wallpaper
-	set_wallpaper(s)
+	set_wallpaper(s, WALLPAPER)
 	taskbar.setup({ position = "top", screen = s })
-	-- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-	screen.connect_signal("property::geometry", set_wallpaper)
+end)
+
+screen.connect_signal("property::geometry", function(s)
+	set_wallpaper(s, WALLPAPER)
 end)

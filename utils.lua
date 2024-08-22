@@ -1,5 +1,15 @@
 local awful = require("awful")
 
+local function file_exists(path)
+	local f = io.open(path, "r")
+	if f ~= nil then
+		io.close(f)
+		return true
+	else
+		return false
+	end
+end
+
 -- -- add the key bindings in the clientkeys = gears.table.join( ... ) section:
 -- -- Snap to edge/corner - Use arrow keys
 -- awful.key({ modkey, "Shift" }, "Down",  function (c) snap_edge(c, 'bottom') end),
@@ -106,19 +116,21 @@ local function snap_edge(c, where, geom)
 	awful.placement.no_offscreen(c)
 end
 
-local function set_wallpaper(s)
-	-- Wallpaper
-
+local function set_wallpaper(s, wallpaper_path)
 	local beautiful = require("beautiful")
 	local gears = require("gears")
 
-	if beautiful.wallpaper then
-		local wallpaper = beautiful.wallpaper
-		-- If wallpaper is a function, call it with the screen
-		if type(wallpaper) == "function" then
-			wallpaper = wallpaper(s)
+	if file_exists(wallpaper_path) then
+		gears.wallpaper.maximized(wallpaper_path, s, true)
+	else
+		if beautiful.wallpaper then
+			local wallpaper = beautiful.wallpaper
+			-- If wallpaper is a function, call it with the screen
+			if type(wallpaper) == "function" then
+				wallpaper = wallpaper(s)
+			end
+			gears.wallpaper.maximized(wallpaper, s, true)
 		end
-		gears.wallpaper.maximized(wallpaper, s, true)
 	end
 end
 
