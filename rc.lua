@@ -62,7 +62,8 @@ do
 	end)
 end
 
--- Variable definitions
+awful.util.shell = "bash"
+
 HOME = os.getenv("HOME")
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(HOME .. "/.config/awesome/themes/" .. "ztz/theme.lua")
