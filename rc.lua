@@ -13,7 +13,6 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
-
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -36,47 +35,39 @@ local set_wallpaper = require("utils").set_wallpaper
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-	naughty.notify({
-		preset = naughty.config.presets.critical,
-		title = "Oops, there were errors during startup!",
-		text = awesome.startup_errors,
-	})
+    naughty.notify({
+        preset = naughty.config.presets.critical,
+        title = "Oops, there were errors during startup!",
+        text = awesome.startup_errors,
+    })
 end
 
 -- Handle runtime errors after startup
 do
-	local in_error = false
-	awesome.connect_signal("debug::error", function(err)
-		-- Make sure we don't go into an endless error loop
-		if in_error then
-			return
-		end
-		in_error = true
+    local in_error = false
+    awesome.connect_signal("debug::error", function(err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then
+            return
+        end
+        in_error = true
 
-		naughty.notify({
-			preset = naughty.config.presets.critical,
-			title = "Oops, an error happened!",
-			text = tostring(err),
-		})
-		in_error = false
-	end)
+        naughty.notify({
+            preset = naughty.config.presets.critical,
+            title = "Oops, an error happened!",
+            text = tostring(err),
+        })
+        in_error = false
+    end)
 end
 
 awful.util.shell = "bash"
 
 HOME = os.getenv("HOME")
--- Themes define colours, icons, font and wallpapers.
 beautiful.init(HOME .. "/.config/awesome/themes/" .. "ztz/theme.lua")
--- This is used later as the default terminal and editor to run.
 terminal = "terminology"
 editor = "nvim" or os.getenv("EDITOR")
 editor_cmd = terminal .. " -e " .. editor
-awful.screen.set_auto_dpi_enabled(true)
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
 WALLPAPER = HOME .. "/Pictures/wallpapers/wallpaper.jpeg"
@@ -106,10 +97,10 @@ local taskbar = require("taskbar")
 -- run it inside the awful.screen.connect_for_each_screen function
 
 awful.screen.connect_for_each_screen(function(s)
-	set_wallpaper(s, WALLPAPER)
-	taskbar.setup({ position = "top", screen = s })
+    set_wallpaper(s, WALLPAPER)
+    taskbar.setup({ position = "top", screen = s })
 end)
 
 screen.connect_signal("property::geometry", function(s)
-	set_wallpaper(s, WALLPAPER)
+    set_wallpaper(s, WALLPAPER)
 end)
