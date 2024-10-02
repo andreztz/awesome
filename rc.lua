@@ -98,7 +98,7 @@ local taskbar = require("taskbar")
 
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s, WALLPAPER)
-    taskbar.setup({ position = "top", screen = s })
+    taskbar.setup({ position = "bottom", screen = s })
 end)
 
 screen.connect_signal("property::geometry", function(s)
