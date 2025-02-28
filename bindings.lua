@@ -22,6 +22,44 @@ local function setup()
 
     -- Key bindings
     globalkeys = gears.table.join(
+        -- Midia bindings (use xev to get key name)
+        awful.key({}, "XF86AudioPrev", function()
+            awful.spawn("/usr/bin/playerctl previous")
+        end, { description = "Play previous media", group = "Midia" }),
+        awful.key({}, "XF86AudioNext", function()
+            awful.spawn("/usr/bin/playerctl next")
+        end, { description = "Play next media", group = "Midia" }),
+        awful.key({}, "XF86AudioPlay", function()
+            awful.spawn("/usr/bin/playerctl play-pause")
+        end, { description = "Play/Pause media", group = "Midia" }),
+        awful.key({}, "XF86AudioStop", function()
+            awful.spawn("/usr/bin/playerctl stop")
+        end, { description = "Stop media", group = "Midia" }),
+        awful.key(
+            {},
+            "XF86AudioMute",
+            function()
+                awful.spawn("/usr/bin/amixer set Master toggle")
+            end,
+            { description = "Toggle between mute and unmute", group = "Midia" }
+        ),
+        awful.key(
+            {},
+            "XF86AudioLowerVolume",
+            function()
+                awful.spawn("/usr/bin/amixer set Master 5%-")
+            end,
+            { description = "Decrease current volume by 5%", group = "Midia" }
+        ),
+        awful.key(
+            {},
+            "XF86AudioRiseVolume",
+            function()
+                awful.spawn("/usr/bin/amixer set Master 5%+")
+            end,
+            { description = "Increase current volume by 5%", group = "Midia" }
+        ),
+
         awful.key(
             { modkey },
             "s",
