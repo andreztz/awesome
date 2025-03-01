@@ -15,9 +15,11 @@ git clone https://github.com/vicious-widgets/vicious.git
 
 ## Dependências
 
-- xcompmgr
+- picom
 - flameshot
 - volctl
 - nm-applet
 - xfce4-clipman
 - redshift
+- amixer
+- playerctl
