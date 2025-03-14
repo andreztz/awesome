@@ -11,7 +11,7 @@ local function setup()
         "picom",
         "/usr/bin/opensnitch-ui",
         "/usr/bin/xfce4-clipman",
-	"/usr/bin/tailscale-systray",
+        "/usr/bin/tailscale-systray",
     })
 end
 
