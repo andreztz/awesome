@@ -2,7 +2,6 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-local appmenu = require("appmenu")
 
 local function setup()
     -- Cria menu de execução de aplicativos
@@ -26,7 +25,6 @@ local function setup()
 
     main_menu = awful.menu({
         items = {
-            { "applications", appmenu.Appmenu },
             { "open terminal", terminal },
             { "awesome", awesome_menu, beautiful.awesome_icon },
         },
