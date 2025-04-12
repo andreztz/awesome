@@ -1,4 +1,4 @@
-local executer = require("modules/executer")
+local executer = require("executer")
 
 local function setup()
     -- Autostart
