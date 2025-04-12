@@ -63,7 +63,9 @@ theme.border_normal = "#000000"
 theme.tasklist_bg_focus = "#00FF00" -- Define a cor de fundo da barra de tarefas para a janela em foco
 theme.tasklist_bg_minimize = "#FF00FF" -- Define a cor de fundo da barra de tarefas para janelas minimizadas
 
-theme.font = "Monego 10"
+-- to get font name, use: fc-list | cut -d: -f2,3 | grep <font name>
+-- https://github.com/belluzj/fantasque-sans
+theme.font = " Fantasque Sans Mono regular 14"
 theme.systray_icon_spacing = 8
 
 -- theme.border_width                              = "2"
