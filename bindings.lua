@@ -22,7 +22,7 @@ local function setup()
 
     -- Key bindings
     globalkeys = gears.table.join(
-        -- Midia bindings (use xev to get key name)
+    -- Midia bindings (use xev to get key name)
         awful.key({}, "XF86AudioPrev", function()
             awful.spawn("/usr/bin/playerctl previous")
         end, { description = "Play previous media", group = "Midia" }),
@@ -97,6 +97,13 @@ local function setup()
             main_menu:show()
         end, { description = "show main menu", group = "awesome" }),
 
+        -- Clipboard
+        awful.key({ modkey }, "c", function()
+            awful.spawn(
+                "rofi -modi 'clipboard:greenclip print' -show clipboard"
+            )
+        end, { description = "clipboard history", group = "rofi" }),
+
         -- Layout manipulation
         awful.key({ modkey, "Shift" }, "j", function()
             awful.client.swap.byidx(1)
@@ -122,6 +129,8 @@ local function setup()
             group = "screen",
         }),
 
+
+
         -- Jump to  urgent client
         awful.key(
             { modkey },
@@ -130,11 +139,14 @@ local function setup()
             { description = "jump to urgent client", group = "client" }
         ),
         awful.key({ modkey }, "Tab", function()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end, { description = "go back", group = "client" }),
+            awful.spawn("rofi -config ~/sidebar/config.rasi -show")
+        end),
+        -- awful.key({ modkey }, "Tab", function()
+        --     awful.client.focus.history.previous()
+        --     if client.focus then
+        --         client.focus:raise()
+        --     end
+        -- end, { description = "go back", group = "client" }),
 
         -- Standard program
         awful.key({ modkey }, "Return", function()
@@ -358,11 +370,11 @@ local function setup()
             c:emit_signal("request::activate", "mouse_click", { raise = true })
             awful.mouse.client.resize(c)
         end)
-        -- awful.button({ modkey }, 8, function(c)
-        -- end),
-        --
-        -- awful.button({ modkey }, 9, function(c)
-        -- end)
+    -- awful.button({ modkey }, 8, function(c)
+    -- end),
+    --
+    -- awful.button({ modkey }, 9, function(c)
+    -- end)
     )
 
     -- Set keys
