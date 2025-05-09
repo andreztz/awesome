@@ -59,7 +59,7 @@ awful.util.shell = "bash"
 
 HOME = os.getenv("HOME")
 beautiful.init(HOME .. "/.config/awesome/themes/" .. "ztz/theme.lua")
-terminal = "kitty"
+terminal = "terminology"
 editor = "nvim" or os.getenv("EDITOR")
 editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
